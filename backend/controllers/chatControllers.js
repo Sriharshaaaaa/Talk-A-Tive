@@ -2,6 +2,9 @@ const asyncHandler = require("express-async-handler");
 const Chat = require("../Models/chatModel");
 const User = require("../Models/userModel");
 
+
+
+// individuL chat
 const accessChat = asyncHandler(async (req, res) => {
   //we need user id with which we will create chats
   const { userId } = req.body;
@@ -54,6 +57,7 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 });
 
+//to display the chat details in chat
 const fetchChats = asyncHandler(async (req, res) => {
   //we will look for all the database for which this particular user is part of
   try {

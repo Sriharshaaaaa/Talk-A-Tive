@@ -10,7 +10,6 @@ const { notFound, errorHandler } = require("./Middleware/errorMiddleware");
 const path = require("path");
 
 const app = express();
-
 dotenv.config();
 connectDB();
 
@@ -20,6 +19,7 @@ app.get("/", (req, res) => {
   res.send("API IS RUNNING");
 });
 
+//routes
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);

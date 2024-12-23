@@ -58,6 +58,9 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+// search boxx
 //  /api/user?search=oiyush
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search //we will store the searching query in keyword
@@ -65,7 +68,7 @@ const allUsers = asyncHandler(async (req, res) => {
         //now we will check if the keyword matches with name or email so we use that operator $or
         $or: [
           { name: { $regex: req.query.search, $options: "i" } },//regex-used to match the strings
-          { email: { $regex: req.query.search, $options: "i" } },//i-caseinsensitive
+          { email: { $regex: req.query.search, $options: "i" } },//i-case insensitive
         ],
       }
     : {};//else weill return nothing
