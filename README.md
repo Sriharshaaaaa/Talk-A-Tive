@@ -1,9 +1,20 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 # Talk-A-Tive
-=======
-# talk-a-tive
->>>>>>> 550423d (first commit)
-=======
-# Talk-A-Tive
->>>>>>> c024916295da714065a0f30d5757eff56b5e6fba
+
+Talk-a-tive is a Full Stack Chatting App.
+Uses Socket.io for real time communication and stores user details in encrypted format in Mongo DB Database.
+## Tech Stack
+
+**Client:** React JS
+
+**Server:** Node JS, Express JS
+
+**Database:** Mongo DB
+  
+## Demo
+
+[https://talk-a-tive.herokuapp.com/](https://talk-a-tive-7fgq.onrender.com)
+
+
+
+  
