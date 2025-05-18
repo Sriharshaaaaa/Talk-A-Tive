@@ -13,7 +13,7 @@ Uses Socket.io for real time communication and stores user details in encrypted 
   
 ## Demo
 
-[https://talk-a-tive.herokuapp.com/](https://talk-a-tive-7fgq.onrender.com)
+[Talk-A-Tive]([https://talk-a-tive-7fgq.onrender.com](https://talk-a-tive-sepia.vercel.app/))
 
 
 
