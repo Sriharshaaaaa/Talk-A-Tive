@@ -15,6 +15,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://talk-a-tive.vercel.app",
   "https://talk-a-tive-git-main-sri-harsha-dabbirus-projects.vercel.app",
+  "https://talk-a-tive-sepia.vercel.app", // Add this line
 ];
 
 const app = express();
@@ -28,6 +29,9 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: function (origin, callback) {
+      console.log("Request origin:", origin);
+      console.log("Regex test result:", /\.vercel\.app$/.test(origin));
+
       if (
         !origin ||
         allowedOrigins.includes(origin) ||
