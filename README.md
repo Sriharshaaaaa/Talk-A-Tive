@@ -13,7 +13,8 @@ Uses Socket.io for real time communication and stores user details in encrypted 
   
 ## Demo
 
-[[Talk-A-Tive](https://talk-a-tive-7fgq.onrender.com](https://talk-a-tive-sepia.vercel.app/)]([https://talk-a-tive-7fgq.onrender.com](https://talk-a-tive-sepia.vercel.app/))
+[Talk-A-Tive Live Demo (Vercel)](https://talk-a-tive-sepia.vercel.app/)
+
 
 
 
