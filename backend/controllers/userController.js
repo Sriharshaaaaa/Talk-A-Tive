@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/userModel");
 const generateToken = require("../config/generateToken");
-const token = generateToken(user._id);
+
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
 
@@ -42,7 +42,7 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-
+  const token = generateToken(user._id);
   if (user && (await user.matchPassword(password))) {
     res
       .cookie("token", token, {
