@@ -9,6 +9,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./Middleware/errorMiddleware");
 const path = require("path");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const allowedOrigins = [
   "http://localhost:3000", // for local development
@@ -21,9 +22,17 @@ connectDB();
 
 app.use(express.json());
 
+app.use(cookieParser());
+
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
