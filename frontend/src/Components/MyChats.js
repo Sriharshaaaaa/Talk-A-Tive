@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
-import axios from "axios";
+import axios from "../utils/axios";
 import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
@@ -12,7 +12,7 @@ const MyChats = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const toast = useToast();
 
-  const fetchChats = async () => {
+  const fetchChats = useCallback(async () => {
     try {
       const config = {
         headers: {
@@ -32,12 +32,12 @@ const MyChats = ({ fetchAgain }) => {
         position: "bottom-left",
       });
     }
-  };
+  }, [user.token, setChats, toast]);
 
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, [fetchAgain]);
+  }, [fetchAgain, fetchChats]);
 
   return (
     <Box

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import axios from "axios";
+import axios from "../../utils/axios";
 import { useHistory } from "react-router-dom";
 
 const Signup = () => {
@@ -56,8 +56,8 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        // "/api/user",
-        "https://talk-a-tive-api.vercel.app/api/user",
+        "/api/user",
+        // "https://talk-a-tive-api.vercel.app/api/user",
         {
           name,
           email,

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useToast } from "@chakra-ui/react";
-import axios from "axios";
+import axios from "../../utils/axios";
 import { useHistory } from "react-router-dom";
 
 const Login = () => {
@@ -45,8 +45,8 @@ const Login = () => {
       };
 
       const { data } = await axios.post(
-        // "/api/user/login",
-        "https://talk-a-tive-backend.onrender.com/api/user/login",
+        "/api/user/login",
+        // "https://talk-a-tive-backend.onrender.com/api/user/login",
         { email, password },
         config
       );
