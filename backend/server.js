@@ -12,8 +12,9 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const allowedOrigins = [
-  "http://localhost:3000", // for local development
-  "https://talk-a-tive-jlwwl07ia-sri-harsha-dabbirus-projects.vercel.app", // your vercel frontend
+  "http://localhost:3000",
+  "https://talk-a-tive-jlwwl07ia-sri-harsha-dabbirus-projects.vercel.app",
+  "https://talk-a-tive-sepia.vercel.app",
 ];
 
 const app = express();
@@ -26,7 +27,13 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "*",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
