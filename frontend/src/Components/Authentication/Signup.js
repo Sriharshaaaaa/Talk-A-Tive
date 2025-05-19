@@ -56,7 +56,8 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "/api/user",
+        // "/api/user",
+        "https://talk-a-tive-api.vercel.app/api/user",
         {
           name,
           email,

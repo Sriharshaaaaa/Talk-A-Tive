@@ -45,7 +45,8 @@ const Login = () => {
       };
 
       const { data } = await axios.post(
-        "/api/user/login",
+        // "/api/user/login",
+        "https://talk-a-tive-backend.onrender.com/api/user/login",
         { email, password },
         config
       );
