@@ -26,25 +26,40 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+// Add this at the top of your server file
+app.use((req, res, next) => {
+  // Log the request for debugging
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+  next();
+});
+
+// Then configure CORS
 app.use(
   cors({
     origin: function (origin, callback) {
+      // For debugging
       console.log("Request origin:", origin);
-      console.log("Regex test result:", /\.vercel\.app$/.test(origin));
 
-      if (
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        /\.vercel\.app$/.test(origin)
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      // Allow all vercel.app domains
+      if (origin.endsWith(".vercel.app")) return callback(null, true);
+
+      // Check against whitelist
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+
+      // Otherwise, deny
+      callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["X-Requested-With", "Content-Type", "Authorization"],
   })
 );
+
+// Handle preflight requests
+app.options("*", cors());
 
 app.get("/", (req, res) => {
   res.send("API IS RUNNING");
@@ -68,17 +83,24 @@ const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
     origin: function (origin, callback) {
-      if (
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        /\.vercel\.app$/.test(origin)
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS (Socket.IO)"));
-      }
+      // For debugging
+      console.log("Socket.IO request origin:", origin);
+
+      // Allow requests with no origin
+      if (!origin) return callback(null, true);
+
+      // Allow all vercel.app domains
+      if (origin.endsWith(".vercel.app")) return callback(null, true);
+
+      // Check against whitelist
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+
+      // Otherwise, deny
+      callback(new Error("Not allowed by CORS (Socket.IO)"));
     },
     credentials: true,
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["X-Requested-With", "Content-Type", "Authorization"],
   },
 });
 
