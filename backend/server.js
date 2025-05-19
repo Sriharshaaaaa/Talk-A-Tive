@@ -13,8 +13,7 @@ const cookieParser = require("cookie-parser");
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://talk-a-tive-jlwwl07ia-sri-harsha-dabbirus-projects.vercel.app",
-  "https://talk-a-tive-sepia.vercel.app",
+  "https://talk-a-tive.vercel.app",
 ];
 
 const app = express();
@@ -60,7 +59,11 @@ const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app")
+      ) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS (Socket.IO)"));
