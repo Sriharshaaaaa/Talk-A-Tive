@@ -8,12 +8,25 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./Middleware/errorMiddleware");
 const path = require("path");
+const cors = require("cors");
+
+const allowedOrigins = [
+  "http://localhost:3000", // for local development
+  "https://talk-a-tive-jlwwl07ia-sri-harsha-dabbirus-projects.vercel.app", // your vercel frontend
+];
 
 const app = express();
 dotenv.config();
 connectDB();
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("API IS RUNNING");
@@ -23,24 +36,6 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
-
-// --------------------------deployment------------------------------
-
-// const __dirname1 = path.resolve();
-
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname1, "/frontend/build")));
-
-//   app.get("*", (req, res) =>
-//     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
-//   );
-// } else {
-//   app.get("/", (req, res) => {
-//     res.send("API is running..");
-//   });
-// }
-
-// --------------------------deployment------------------------------
 
 app.use(notFound);
 app.use(errorHandler);
@@ -54,7 +49,8 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: allowedOrigins,
+    credentials: true,
   },
 });
 
