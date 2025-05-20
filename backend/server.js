@@ -15,7 +15,8 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://talk-a-tive.vercel.app",
   "https://talk-a-tive-git-main-sri-harsha-dabbirus-projects.vercel.app",
-  "https://talk-a-tive-sepia.vercel.app", // Add this line
+  "https://talk-a-tive-sepia.vercel.app",
+  "https://talk-a-tive.onrender.com",
 ];
 
 const app = express();
