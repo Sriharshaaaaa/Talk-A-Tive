@@ -13,9 +13,7 @@ const cookieParser = require("cookie-parser");
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://talk-a-tive.vercel.app",
-  "https://talk-a-tive-git-main-sri-harsha-dabbirus-projects.vercel.app",
-  "https://talk-a-tive-sepia.vercel.app",
+  "https://talk-a-tive-phi.vercel.app/",
   "https://talk-a-tive.onrender.com",
 ];
 
