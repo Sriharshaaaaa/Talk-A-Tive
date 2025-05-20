@@ -23,7 +23,7 @@ import React, { useState } from "react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { ChatState } from "../../Context/ChatProvider";
 import ProfileModal from "./ProfileModal";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
@@ -45,7 +45,7 @@ const SideDrawer = () => {
     notification,
     setNotification,
   } = ChatState(); // Get user from context
-  const history = useHistory(); // For navigation
+  const navigate = useNavigate(); // For navigation
   const { isOpen, onOpen, onClose } = useDisclosure(); // Disclosure state for drawer
   const toast = useToast();
 
@@ -118,7 +118,7 @@ const SideDrawer = () => {
   // Function to handle logout
   const logoutHandler = () => {
     localStorage.removeItem("userInfo"); // Remove user info from local storage
-    history.push("/"); // Redirect to home page
+    navigate("/"); // Redirect to home page
   };
 
   return (
