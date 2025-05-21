@@ -15,7 +15,7 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
   : ["http://localhost:3000"];
 
 const app = express();
-dotenv.config();
+dotenv.config({ path: "./backend/.env" });
 connectDB();
 
 app.use(express.json());
