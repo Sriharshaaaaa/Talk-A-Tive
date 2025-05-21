@@ -11,20 +11,20 @@ import {
 } from "@chakra-ui/react";
 import Login from "../Components/Authentication/Login";
 import Signup from "../Components/Authentication/Signup";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Homepage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    //         This line retrieves an item named "userInfo" from the browser’s local storage.
+    //         This line retrieves an item named "userInfo" from the browser's local storage.
     // localStorage.getItem("userInfo") gets the value associated with the "userInfo" key.
     // JSON.parse converts this value from a JSON string back into a JavaScript object. If "userInfo" does not exist in local storage, localStorage.getItem("userInfo") will return null.
     if (user) {
       //if the user is logged in
-      history.push("/chats"); //this will push the user to the chatpage
+      navigate("/chats"); //this will push the user to the chatpage
     }
-  }, [history]);
+  }, [navigate]);
 
   return (
     <Container maxW="xl">

@@ -2,8 +2,6 @@ const asyncHandler = require("express-async-handler");
 const Chat = require("../Models/chatModel");
 const User = require("../Models/userModel");
 
-
-
 // individuL chat
 const accessChat = asyncHandler(async (req, res) => {
   //we need user id with which we will create chats
@@ -141,7 +139,8 @@ const addToGroup = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
 
   // check if the requester is admin
-  const added = await Chat.findByIdAndUpdate( //we will search for the chat
+  const added = await Chat.findByIdAndUpdate(
+    //we will search for the chat
     chatId,
     {
       $push: { users: userId }, //we will push the new user
@@ -169,7 +168,7 @@ const removeFromGroup = asyncHandler(async (req, res) => {
   const removed = await Chat.findByIdAndUpdate(
     chatId,
     {
-      $pull: { users: userId },//we are pulling the user
+      $pull: { users: userId }, //we are pulling the user
     },
     {
       new: true,
