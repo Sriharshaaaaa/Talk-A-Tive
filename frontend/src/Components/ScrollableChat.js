@@ -1,5 +1,5 @@
 import { Avatar } from "@chakra-ui/react";
-import { Tooltip } from "@chakra-ui/tooltip";
+import { Tooltip } from "@chakra-ui/react";
 import ScrollableFeed from "react-scrollable-feed";
 
 import { ChatState } from "../Context/ChatProvider";
