@@ -9,6 +9,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./Middleware/errorMiddleware");
 const path = require("path");
 const cors = require("cors");
+const { Routes, Route } = require("react-router-dom");
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",")
