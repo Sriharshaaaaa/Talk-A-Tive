@@ -42,23 +42,27 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-
+  const token = generateToken(user._id);
   if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
-      token: generateToken(user._id),
-    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true, // set false for local testing if not on HTTPS
+        sameSite: "None", // important for cross-origin (Vercel <-> Render)
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      })
+      .json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        pic: user.pic,
+      });
   } else {
     res.status(401);
     throw new Error("Invalid Email or Password");
   }
 });
-
-
 
 // search boxx
 //  /api/user?search=oiyush
@@ -67,14 +71,14 @@ const allUsers = asyncHandler(async (req, res) => {
     ? {
         //now we will check if the keyword matches with name or email so we use that operator $or
         $or: [
-          { name: { $regex: req.query.search, $options: "i" } },//regex-used to match the strings
-          { email: { $regex: req.query.search, $options: "i" } },//i-case insensitive
+          { name: { $regex: req.query.search, $options: "i" } }, //regex-used to match the strings
+          { email: { $regex: req.query.search, $options: "i" } }, //i-case insensitive
         ],
       }
-    : {};//else weill return nothing
+    : {}; //else weill return nothing
 
-  //we will store all the ids matching the keyword except the user who loggedin(ne-not equal to) 
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });//to not to share the user id we are using auth middleware
-  res.send(users);//returning it
+  //we will store all the ids matching the keyword except the user who loggedin(ne-not equal to)
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } }); //to not to share the user id we are using auth middleware
+  res.send(users); //returning it
 });
 module.exports = { registerUser, authUser, allUsers };

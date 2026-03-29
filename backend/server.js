@@ -9,10 +9,12 @@ const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./Middleware/errorMiddleware");
 const path = require("path");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const allowedOrigins = [
-  "http://localhost:3000", // for local development
-  "https://talk-a-tive-jlwwl07ia-sri-harsha-dabbirus-projects.vercel.app", // your vercel frontend
+  "http://localhost:3000",
+  "https://talk-a-tive-phi.vercel.app/",
+  "https://talk-a-tive.onrender.com",
 ];
 
 const app = express();
@@ -21,12 +23,42 @@ connectDB();
 
 app.use(express.json());
 
+app.use(cookieParser());
+
+// Add this at the top of your server file
+app.use((req, res, next) => {
+  // Log the request for debugging
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+  next();
+});
+
+// Then configure CORS
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // For debugging
+      console.log("Request origin:", origin);
+
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      // Allow all vercel.app domains
+      if (origin.endsWith(".vercel.app")) return callback(null, true);
+
+      // Check against whitelist
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+
+      // Otherwise, deny
+      callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["X-Requested-With", "Content-Type", "Authorization"],
   })
 );
+
+// Handle preflight requests
+app.options("*", cors());
 
 app.get("/", (req, res) => {
   res.send("API IS RUNNING");
@@ -49,8 +81,25 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // For debugging
+      console.log("Socket.IO request origin:", origin);
+
+      // Allow requests with no origin
+      if (!origin) return callback(null, true);
+
+      // Allow all vercel.app domains
+      if (origin.endsWith(".vercel.app")) return callback(null, true);
+
+      // Check against whitelist
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+
+      // Otherwise, deny
+      callback(new Error("Not allowed by CORS (Socket.IO)"));
+    },
     credentials: true,
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["X-Requested-With", "Content-Type", "Authorization"],
   },
 });
 
@@ -83,3 +132,6 @@ io.on("connection", (socket) => {
     socket.leave(userData._id);
   });
 });
+
+
+module.exports.io = io;
